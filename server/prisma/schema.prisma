@@ -1,0 +1,31 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id         Int         @id @default(autoincrement())
+  username   String
+  score      Int
+  challenges Challenge[]
+}
+
+model Challenge {
+  id            Int     @id @default(autoincrement())
+  attempts      Int
+  playerId      Int
+  albumName     String?
+  artistName    String?
+  artworkUrl100 String?
+  artistId      String
+  score         Int
+  answered      Boolean
+  round Int
+  Player        Player  @relation(fields: [playerId], references: [id])
+}
+
